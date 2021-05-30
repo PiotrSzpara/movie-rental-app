@@ -1,7 +1,5 @@
 package com.crud.movies.mapper;
 
-import com.crud.movies.domain.Movie;
-import com.crud.movies.domain.MovieDto;
 import com.crud.movies.domain.Order;
 import com.crud.movies.domain.OrderDto;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.crud.movies.domain;
 
 public enum MovieType {
-    MOVIE,
+    SINGLE_MOVIE,
     SERIES,
-    KIDS,
+    KIDS_MOVIE,
 }

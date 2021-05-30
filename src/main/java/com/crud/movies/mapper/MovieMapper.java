@@ -1,7 +1,5 @@
 package com.crud.movies.mapper;
 
-import com.crud.movies.domain.Genre;
-import com.crud.movies.domain.GenreDto;
 import com.crud.movies.domain.Movie;
 import com.crud.movies.domain.MovieDto;
 import org.springframework.stereotype.Service;
@@ -17,6 +15,7 @@ public class MovieMapper {
                 movieDto.getMovieId(),
                 movieDto.getMovieTitle(),
                 movieDto.getMovieDescription(),
+                movieDto.getMovieType(),
                 movieDto.getPrice()
         );
     }
@@ -26,6 +25,7 @@ public class MovieMapper {
                 movie.getMovieId(),
                 movie.getMovieTitle(),
                 movie.getMovieDescription(),
+                movie.getMovieType(),
                 movie.getPrice()
         );
     }

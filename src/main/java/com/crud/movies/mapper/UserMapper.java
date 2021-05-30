@@ -1,10 +1,7 @@
 package com.crud.movies.mapper;
 
-import com.crud.movies.domain.Order;
-import com.crud.movies.domain.OrderDto;
 import com.crud.movies.domain.User;
 import com.crud.movies.domain.UserDto;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

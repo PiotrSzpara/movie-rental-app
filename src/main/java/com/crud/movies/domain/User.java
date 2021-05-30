@@ -1,12 +1,12 @@
 package com.crud.movies.domain;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,5 +33,46 @@ public class User {
         this.password = password;
         this.userTokenKey = userTokenKey;
         this.status = status;
+    }
+
+    @Id
+    @GeneratedValue
+    @NotNull
+    @Column(name = "USER_ID", unique = true)
+    public int getUserId() {
+        return userId;
+    }
+
+    @Column(name = "USER_NAME")
+    public String getUserName() {
+        return userName;
+    }
+
+    @Column(name = "USER_EMAIL")
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    @Column(name = "PASSWORD")
+    public String getPassword() {
+        return password;
+    }
+
+    @Column(name = "USER_TOKEN")
+    public String getUserTokenKey() {
+        return userTokenKey;
+    }
+
+    @Column(name = "IS_STATUS")
+    public boolean isStatus() {
+        return status;
+    }
+
+    @OneToMany(targetEntity = Rent.class,
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    public List<Rent> getRents() {
+        return rents;
     }
 }
