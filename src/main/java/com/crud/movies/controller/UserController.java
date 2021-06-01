@@ -2,6 +2,8 @@ package com.crud.movies.controller;
 
 import com.crud.movies.domain.User;
 import com.crud.movies.domain.UserDto;
+import com.crud.movies.facade.SearchingFacade;
+import com.crud.movies.facade.SearchException;
 import com.crud.movies.mapper.UserMapper;
 import com.crud.movies.service.UserDbService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +18,13 @@ public class UserController {
 
     private final UserDbService userDbService;
     private final UserMapper userMapper;
+    private final SearchingFacade searchingFacade;
 
     @Autowired
-    public UserController(UserDbService userDbService, UserMapper userMapper) {
+    public UserController(UserDbService userDbService, UserMapper userMapper, SearchingFacade searchingFacade) {
         this.userDbService = userDbService;
         this.userMapper = userMapper;
+        this.searchingFacade = searchingFacade;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getAllUsers")
@@ -39,6 +43,11 @@ public class UserController {
     public UserDto getUserByName(@RequestParam String userName) {
         User user = userDbService.getUserByNme(userName);
         return userMapper.mapToUserDto(user);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "getUsersByNameFragment")
+    public List<UserDto> getUsersByNameFragment(@RequestParam String nameFragment) throws SearchException {
+        return userMapper.mapToUserDtoList(searchingFacade.usersWithName(nameFragment));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createUser", consumes = MediaType.APPLICATION_JSON_VALUE)

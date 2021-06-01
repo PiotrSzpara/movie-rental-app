@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface GenreDao extends CrudRepository<Genre, Integer> {
 
-        Genre findById(int genreId);
+        Genre findByGenreId(int genreId);
 
         @Override
         Genre save(Genre genre);

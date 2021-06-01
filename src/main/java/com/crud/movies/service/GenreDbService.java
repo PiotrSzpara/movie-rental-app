@@ -19,7 +19,7 @@ public class GenreDbService {
     }
 
     public Genre getGenre (final int genreId) {
-        return genreDao.findById(genreId);
+        return genreDao.findByGenreId(genreId);
     }
 
     public Genre saveGenre(Genre genre) {

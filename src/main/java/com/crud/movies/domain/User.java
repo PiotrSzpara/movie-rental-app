@@ -10,6 +10,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedNativeQuery(name = "User.usersWithName",
+        query = "SELECT * FROM USERS WHERE USER_NAME LIKE CONCAT('%', :KEYWORD , '%')",
+        resultClass = User.class)
+
 @Setter
 @Getter
 @NoArgsConstructor

@@ -19,11 +19,11 @@ public class MovieDbService {
     }
 
     public Movie getMovieById (final int movieId) {
-        return movieDao.findById(movieId);
+        return movieDao.findByMovieId(movieId);
     }
 
     public Movie getMovieByTitle (final String movieTitle) {
-        return movieDao.findByTitle(movieTitle);
+        return movieDao.findByMovieTitle(movieTitle);
     }
 
     public Movie saveMovie(Movie movie) {

@@ -10,6 +10,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedNativeQuery(name = "Movie.moviesWithTitle",
+        query = "SELECT * FROM MOVIES WHERE MOVIE_TITLE LIKE CONCAT('%', :KEYWORD , '%')",
+        resultClass = Movie.class)
+
 @Setter
 @Getter
 @NoArgsConstructor

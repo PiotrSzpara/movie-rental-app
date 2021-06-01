@@ -1,6 +1,8 @@
 package com.crud.movies.domain;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,13 +13,16 @@ import java.util.Optional;
 @Repository
 public interface UserDao extends CrudRepository<User, Integer> {
 
-        User findById(int userId);
+        User findByUserId(int userId);
 
-        User findByName(String userName);
+        User findByUserName(String userName);
 
         @Override
         User save(User user);
 
         @Override
         List<User> findAll();
+
+        @Query(nativeQuery = true)
+        List<User> usersWithName(@Param("KEYWORD") String nameFragment);
 }

@@ -22,11 +22,11 @@ public class UserDbService {
     }
 
     public User getUserById (final int userId) {
-        return userDao.findById(userId);
+        return userDao.findByUserId(userId);
     }
 
     public User getUserByNme (final String userName) {
-        return userDao.findByName(userName);
+        return userDao.findByUserName(userName);
     }
 
     public User saveUser(User user) {

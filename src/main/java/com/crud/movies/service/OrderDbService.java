@@ -19,11 +19,11 @@ public class OrderDbService {
     }
 
     public Order getOrderById(final int orderId) {
-        return orderDao.findById(orderId);
+        return orderDao.findByOrderId(orderId);
     }
 
     public Order getOrderByName(final String orderName) {
-        return orderDao.findByName(orderName);
+        return orderDao.findByOrderName(orderName);
     }
 
     public Order saveOrder(Order order) {

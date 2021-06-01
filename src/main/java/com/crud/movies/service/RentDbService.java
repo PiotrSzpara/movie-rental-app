@@ -21,7 +21,7 @@ public class RentDbService {
     }
 
     public Rent getRent(final int rentId) {
-        return rentDao.findById(rentId);
+        return rentDao.findByRentId(rentId);
     }
 
     public Rent saveRent(Rent rent) {

@@ -11,9 +11,9 @@ import java.util.Optional;
 @Repository
 public interface OrderDao extends CrudRepository<Order, Integer> {
 
-        Order findById(int orderId);
+        Order findByOrderId(int orderId);
 
-        Order findByName(String orderName);
+        Order findByOrderName(String orderName);
 
         @Override
         Order save(Order order);

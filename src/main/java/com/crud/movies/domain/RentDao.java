@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface RentDao extends CrudRepository<Rent, Integer> {
 
-    Rent findById(int rentId);
+    Rent findByRentId(int rentId);
 
     @Override
     Rent save(Rent rent);
