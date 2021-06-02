@@ -1,105 +1,73 @@
 package com.crud.movies.controller;
 
-import com.crud.movies.domain.Movie;
 import com.crud.movies.domain.MovieDto;
-import com.crud.movies.domain.MovieType;
-import com.crud.movies.facade.SearchingFacade;
+import com.crud.movies.facade.MovieFacade;
 import com.crud.movies.facade.SearchException;
-import com.crud.movies.mapper.MovieMapper;
-import com.crud.movies.service.GenreDbService;
-import com.crud.movies.service.MovieDbService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @RestController
 @RequestMapping("/v1/movie")
+@RequiredArgsConstructor
 public class MovieController {
 
-    private final MovieDbService movieDbService;
-    private final MovieMapper movieMapper;
-    private final GenreDbService genreDbService;
-    private final SearchingFacade searchingFacade;
+    private MovieFacade movieFacade;
 
-    public MovieController(MovieDbService movieDbService, MovieMapper movieMapper, GenreDbService genreDbService, SearchingFacade searchingFacade) {
-        this.movieDbService = movieDbService;
-        this.movieMapper = movieMapper;
-        this.genreDbService = genreDbService;
-        this.searchingFacade = searchingFacade;
+    @GetMapping(value = "getAllMovies")
+    List<MovieDto> getAllMovies() {
+        return movieFacade.getAllMovies();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getAllMovies")
-    public List<MovieDto> getAllMovies() {
-        List<Movie> movies = movieDbService.getAllMovies();
-        return movieMapper.mapToMovieDtoList(movies);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "getMoviesByGenre")
+    @GetMapping(value = "getMoviesByGenre")
     public List<MovieDto> getMoviesByGenre(@RequestParam int genreId) {
-        List<Movie> moviesByGenre = genreDbService.getGenre(genreId).getMovies();
-        return movieMapper.mapToMovieDtoList(moviesByGenre);
+        return movieFacade.getMoviesByGenre(genreId);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getSingleMovies")
+    @GetMapping(value = "getSingleMovies")
     public List<MovieDto> getSingleMovies() {
-        List<Movie> moviesByType = movieDbService.getAllMovies()
-                .stream().filter(m -> m.getMovieType().equals(MovieType.SINGLE_MOVIE))
-                .collect(Collectors.toList());
-        return movieMapper.mapToMovieDtoList(moviesByType);
+        return movieFacade.getSingleMovies();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getSeries")
+    @GetMapping(value = "getSeries")
     public List<MovieDto> getSeries() {
-        List<Movie> moviesByType = movieDbService.getAllMovies()
-                .stream().filter(m -> m.getMovieType().equals(MovieType.SERIES))
-                .collect(Collectors.toList());
-        return movieMapper.mapToMovieDtoList(moviesByType);
+        return movieFacade.getSeries();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getKidsMovies")
+    @GetMapping(value = "getKidsMovies")
     public List<MovieDto> getKidsMovies() {
-        List<Movie> moviesByType = movieDbService.getAllMovies()
-                .stream().filter(m -> m.getMovieType().equals(MovieType.KIDS_MOVIE))
-                .collect(Collectors.toList());
-        return movieMapper.mapToMovieDtoList(moviesByType);
+        return movieFacade.getKidsMovies();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getMovieById")
+    @GetMapping(value = "getMovieById")
     public MovieDto getMovieById(@RequestParam int movieId) {
-        Movie movie = movieDbService.getMovieById(movieId);
-        return movieMapper.mapToMovieDto(movie);
+        return movieFacade.getMovieById(movieId);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getMovieByTitle")
+    @GetMapping(value = "getMovieByTitle")
     public MovieDto getMovieByTitle(@RequestParam String movieTitle) {
-        Movie movie = movieDbService.getMovieByTitle(movieTitle);
-        return movieMapper.mapToMovieDto(movie);
+        return movieFacade.getMovieByTitle(movieTitle);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getMoviesByTitleFragment")
+    @GetMapping(value = "getMoviesByTitleFragment")
     public List<MovieDto> getMoviesByTitleFragment(@RequestParam String titleFragment) throws SearchException {
-        return movieMapper.mapToMovieDtoList(searchingFacade.moviesWithTitle(titleFragment));
+        return movieFacade.getMoviesByTitleFragment(titleFragment);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createMovie", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "createMovie", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createMovie(@RequestBody MovieDto movieDto) {
-        Movie newMovie = movieMapper.mapToMovie(movieDto);
-        movieDbService.saveMovie(newMovie);
+        movieFacade.createMovie(movieDto);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteMovie")
+    @DeleteMapping(value = "deleteMovie")
     public void deleteMovie(@RequestParam int movieId) {
-        movieDbService.deleteMovieById(movieId);
+       movieFacade.deleteMovie(movieId);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateMovie")
+    @PutMapping(value = "updateMovie")
     public MovieDto updateMovie(@RequestBody MovieDto movieDto) {
-        Movie movie = movieMapper.mapToMovie(movieDto);
-        Movie updatedMovie = movieDbService.saveMovie(movie);
-        return movieMapper.mapToMovieDto(updatedMovie);
+        return movieFacade.updateMovie(movieDto);
     }
 }

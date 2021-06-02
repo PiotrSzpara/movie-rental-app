@@ -1,9 +1,8 @@
 package com.crud.movies.service;
 
 import com.crud.movies.domain.Genre;
-import com.crud.movies.domain.GenreDao;
+import com.crud.movies.repository.GenreRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,22 +10,22 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class GenreDbService {
-    @Autowired
-    private final GenreDao genreDao;
+
+    private final GenreRepository genreRepository;
 
     public List<Genre> getAllGenres() {
-        return genreDao.findAll();
+        return genreRepository.findAll();
     }
 
     public Genre getGenre (final int genreId) {
-        return genreDao.findByGenreId(genreId);
+        return genreRepository.findByGenreId(genreId);
     }
 
     public Genre saveGenre(Genre genre) {
-        return genreDao.save(genre);
+        return genreRepository.save(genre);
     }
 
     public void deleteGenreById(int genreId) {
-        genreDao.deleteById(genreId);
+        genreRepository.deleteById(genreId);
     }
 }

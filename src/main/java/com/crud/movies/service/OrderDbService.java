@@ -1,9 +1,8 @@
 package com.crud.movies.service;
 
 import com.crud.movies.domain.Order;
-import com.crud.movies.domain.OrderDao;
+import com.crud.movies.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,26 +10,26 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OrderDbService {
-    @Autowired
-    private final OrderDao orderDao;
+
+    private final OrderRepository orderRepository;
 
     public List<Order> getAllOrders() {
-        return orderDao.findAll();
+        return orderRepository.findAll();
     }
 
     public Order getOrderById(final int orderId) {
-        return orderDao.findByOrderId(orderId);
+        return orderRepository.findByOrderId(orderId);
     }
 
     public Order getOrderByName(final String orderName) {
-        return orderDao.findByOrderName(orderName);
+        return orderRepository.findByOrderName(orderName);
     }
 
     public Order saveOrder(Order order) {
-        return orderDao.save(order);
+        return orderRepository.save(order);
     }
 
     public void deleteOrderById(int orderId) {
-        orderDao.deleteById(orderId);
+        orderRepository.deleteById(orderId);
     }
 }

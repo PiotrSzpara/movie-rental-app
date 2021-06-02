@@ -1,9 +1,8 @@
 package com.crud.movies.service;
 
 import com.crud.movies.domain.Movie;
-import com.crud.movies.domain.MovieDao;
+import com.crud.movies.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,27 +10,27 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MovieDbService {
-    @Autowired
-    private final MovieDao movieDao;
+
+    private final MovieRepository movieRepository;
 
     public List<Movie> getAllMovies() {
-        return movieDao.findAll();
+        return movieRepository.findAll();
     }
 
     public Movie getMovieById (final int movieId) {
-        return movieDao.findByMovieId(movieId);
+        return movieRepository.findByMovieId(movieId);
     }
 
     public Movie getMovieByTitle (final String movieTitle) {
-        return movieDao.findByMovieTitle(movieTitle);
+        return movieRepository.findByMovieTitle(movieTitle);
     }
 
     public Movie saveMovie(Movie movie) {
-        return movieDao.save(movie);
+        return movieRepository.save(movie);
     }
 
     public void deleteMovieById(int movieId) {
-        movieDao.deleteById(movieId);
+        movieRepository.deleteById(movieId);
     }
 
 }

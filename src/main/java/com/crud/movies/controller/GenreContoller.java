@@ -1,9 +1,8 @@
 package com.crud.movies.controller;
 
-import com.crud.movies.domain.Genre;
 import com.crud.movies.domain.GenreDto;
-import com.crud.movies.mapper.GenreMapper;
-import com.crud.movies.service.GenreDbService;
+import com.crud.movies.facade.GenreFacade;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,43 +10,33 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/genre")
+@RequiredArgsConstructor
 public class GenreContoller {
 
-    private final GenreDbService genreDbService;
-    private final GenreMapper genreMapper;
+    private GenreFacade genreFacade;
 
-    public GenreContoller(GenreDbService genreDbService, GenreMapper genreMapper) {
-        this.genreDbService = genreDbService;
-        this.genreMapper = genreMapper;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "getAllGenres")
+    @GetMapping(value = "getAllGenres")
     public List<GenreDto> getAllGenres() {
-        List<Genre> genres = genreDbService.getAllGenres();
-        return genreMapper.mapToGenreDtoList(genres);
+        return genreFacade.getAllGenres();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getGenre")
+    @GetMapping(value = "getGenre")
     public GenreDto getGenre(@RequestParam int genreId) {
-        Genre genre = genreDbService.getGenre(genreId);
-        return genreMapper.mapToGenreDto(genre);
+        return genreFacade.getGenre(genreId);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createGenre", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "createGenre", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createGenre(@RequestBody GenreDto genreDto) {
-        Genre newGenre = genreMapper.mapToGenre(genreDto);
-        genreDbService.saveGenre(newGenre);
+       genreFacade.createGenre(genreDto);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteGenre")
+    @DeleteMapping(value = "deleteGenre")
     public void deleteGenre(@RequestParam int genreId) {
-        genreDbService.deleteGenreById(genreId);
+        genreFacade.deleteGenre(genreId);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateGenre")
+    @PutMapping(value = "updateGenre")
     public GenreDto updateGenre(@RequestBody GenreDto genreDto) {
-        Genre genre = genreMapper.mapToGenre(genreDto);
-        Genre updatedGenre = genreDbService.saveGenre(genre);
-        return genreMapper.mapToGenreDto(updatedGenre);
+        return genreFacade.updateGenre(genreDto);
     }
 }

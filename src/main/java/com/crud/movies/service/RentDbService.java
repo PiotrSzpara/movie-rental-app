@@ -2,9 +2,8 @@ package com.crud.movies.service;
 
 
 import com.crud.movies.domain.Rent;
-import com.crud.movies.domain.RentDao;
+import com.crud.movies.repository.RentRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,22 +12,22 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RentDbService {
-    @Autowired
-    private final RentDao rentDao;
+
+    private final RentRepository rentRepository;
 
     public List<Rent> getAllRents() {
-        return rentDao.findAll();
+        return rentRepository.findAll();
     }
 
     public Rent getRent(final int rentId) {
-        return rentDao.findByRentId(rentId);
+        return rentRepository.findByRentId(rentId);
     }
 
     public Rent saveRent(Rent rent) {
-        return rentDao.save(rent);
+        return rentRepository.save(rent);
     }
 
     public void deleteRentById(int rentId) {
-        rentDao.deleteById(rentId);
+        rentRepository.deleteById(rentId);
     }
 }

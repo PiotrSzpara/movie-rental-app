@@ -1,9 +1,8 @@
 package com.crud.movies.controller;
 
-import com.crud.movies.domain.Order;
 import com.crud.movies.domain.OrderDto;
-import com.crud.movies.mapper.OrderMapper;
-import com.crud.movies.service.OrderDbService;
+import com.crud.movies.facade.OrderFacade;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,49 +10,38 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/order")
+@RequiredArgsConstructor
 public class OrderController {
-    private final OrderDbService orderDbService;
-    private final OrderMapper orderMapper;
 
-    public OrderController(OrderDbService orderDbService, OrderMapper orderMapper) {
-        this.orderDbService = orderDbService;
-        this.orderMapper = orderMapper;
-    }
+    private OrderFacade orderFacade;
 
-
-    @RequestMapping(method = RequestMethod.GET, value = "getAllOrders")
+    @GetMapping(value = "getAllOrders")
     public List<OrderDto> getAllOrders() {
-        List<Order> orders = orderDbService.getAllOrders();
-        return orderMapper.mapToOrderDtoList(orders);
+        return orderFacade.getAllOrders();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getOrderById")
+    @GetMapping(value = "getOrderById")
     public OrderDto getOrderById(@RequestParam int orderId) {
-        Order order = orderDbService.getOrderById(orderId);
-        return orderMapper.mapToOrderDto(order);
+        return orderFacade.getOrderById(orderId);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getOrderByName")
+    @GetMapping(value = "getOrderByName")
     public OrderDto getOrderByName(@RequestParam String orderName) {
-        Order order = orderDbService.getOrderByName(orderName);
-        return orderMapper.mapToOrderDto(order);
+        return orderFacade.getOrderByName(orderName);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createOrder", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "createOrder", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createOrder(@RequestBody OrderDto orderDto) {
-        Order newOrder = orderMapper.mapToOrder(orderDto);
-        orderDbService.saveOrder(newOrder);
+        orderFacade.createOrder(orderDto);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteOrder")
+    @DeleteMapping(value = "deleteOrder")
     public void deleteOrder(@RequestParam int orderId) {
-        orderDbService.deleteOrderById(orderId);
+        orderFacade.deleteOrder(orderId);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateOrder")
+    @PutMapping(value = "updateOrder")
     public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
-        Order order = orderMapper.mapToOrder(orderDto);
-        Order updatedOrder = orderDbService.saveOrder(order);
-        return orderMapper.mapToOrderDto(updatedOrder);
+        return orderFacade.updateOrder(orderDto);
     }
 }

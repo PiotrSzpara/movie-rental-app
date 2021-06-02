@@ -1,12 +1,9 @@
 package com.crud.movies.controller;
 
-import com.crud.movies.domain.User;
 import com.crud.movies.domain.UserDto;
-import com.crud.movies.facade.SearchingFacade;
 import com.crud.movies.facade.SearchException;
-import com.crud.movies.mapper.UserMapper;
-import com.crud.movies.service.UserDbService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.crud.movies.facade.UserFacade;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,72 +11,53 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/user")
+@RequiredArgsConstructor
 public class UserController {
 
-    private final UserDbService userDbService;
-    private final UserMapper userMapper;
-    private final SearchingFacade searchingFacade;
+    private UserFacade userFacade;
 
-    @Autowired
-    public UserController(UserDbService userDbService, UserMapper userMapper, SearchingFacade searchingFacade) {
-        this.userDbService = userDbService;
-        this.userMapper = userMapper;
-        this.searchingFacade = searchingFacade;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "getAllUsers")
+    @GetMapping(value = "getAllUsers")
     public List<UserDto> getAllUsers() {
-        List<User> users = userDbService.getAllUsers();
-        return userMapper.mapToUserDtoList(users);
+        return userFacade.getAllUsers();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getUserById")
+    @GetMapping(value = "getUserById")
     public UserDto getUserById(@RequestParam int userId) {
-        User user = userDbService.getUserById(userId);
-        return userMapper.mapToUserDto(user);
+        return userFacade.getUserById(userId);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getUserByName")
+    @GetMapping(value = "getUserByName")
     public UserDto getUserByName(@RequestParam String userName) {
-        User user = userDbService.getUserByNme(userName);
-        return userMapper.mapToUserDto(user);
+        return userFacade.getUserByName(userName);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getUsersByNameFragment")
+    @GetMapping(value = "getUsersByNameFragment")
     public List<UserDto> getUsersByNameFragment(@RequestParam String nameFragment) throws SearchException {
-        return userMapper.mapToUserDtoList(searchingFacade.usersWithName(nameFragment));
+        return userFacade.getUsersByNameFragment(nameFragment);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createUser", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "createUser", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createUser(@RequestBody UserDto userDto) {
-        User newUser = userMapper.mapToUser(userDto);
-        userDbService.saveUser(newUser);
+        userFacade.createUser(userDto);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteUser")
+    @DeleteMapping(value = "deleteUser")
     public void deleteUser(@RequestParam int userId) {
-        userDbService.deleteUserById(userId);
+        userFacade.deleteUser(userId);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateUser")
+    @PutMapping(value = "updateUser")
     public UserDto updateUser(@RequestBody UserDto userDto) {
-        User user = userMapper.mapToUser(userDto);
-        User updatedUser = userDbService.saveUser(user);
-        return userMapper.mapToUserDto(updatedUser);
+        return userFacade.updateUser(userDto);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateUserPassword")
+    @PutMapping(value = "updateUserPassword")
     public UserDto updateUserPassword(@RequestBody UserDto userDto, String newPassword) {
-        User user = userMapper.mapToUser(userDto);
-        user.setPassword(newPassword);
-        User updatedUser = userDbService.saveUser(user);
-        return userMapper.mapToUserDto(updatedUser);
+        return userFacade.updateUserPassword(userDto, newPassword);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createTokenUserKey")
+    @PostMapping(value = "createTokenUserKey")
     public void createUserTokenKey(@RequestBody UserDto userDto) {
-        User user = userMapper.mapToUser(userDto);
-        User userWithToken = userDbService.saveTokenUserKey(user);
-        userDbService.saveUser(userWithToken);
+        userFacade.createUserTokenKey(userDto);
     }
 }

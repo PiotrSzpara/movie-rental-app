@@ -1,25 +1,24 @@
 package com.crud.movies.facade;
 
 import com.crud.movies.domain.Movie;
-import com.crud.movies.domain.MovieDao;
+import com.crud.movies.repository.MovieRepository;
 import com.crud.movies.domain.User;
-import com.crud.movies.domain.UserDao;
+import com.crud.movies.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SearchingFacade {
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchingFacade.class);
 
-    @Autowired
-    MovieDao movieDao;
 
-    @Autowired
-    UserDao userDao;
+    private final MovieRepository movieRepository;
+    private final UserRepository userRepository;
 
     public List<Movie> moviesWithTitle (String titleFragment) throws SearchException{
         if (titleFragment.length() == 0) {
@@ -29,7 +28,7 @@ public class SearchingFacade {
 
         LOGGER.info("SEARCHING FOR MOVIES WITH TITLE CONTAINS: " + titleFragment);
 
-        List<Movie> listOfMoviesFound = movieDao.moviesWithTitle(titleFragment);
+        List<Movie> listOfMoviesFound = movieRepository.moviesWithTitle(titleFragment);
         if(listOfMoviesFound.isEmpty()) {
             LOGGER.info("NO MOVIES FOUND WHERE TITLE CONTAINS: " + titleFragment);
         }
@@ -49,7 +48,7 @@ public class SearchingFacade {
 
         LOGGER.info("SEARCHING FOR USERS WITH NAME CONTAINS: " + nameFragment);
 
-        List<User>  listOfUsersFound = userDao.usersWithName(nameFragment);
+        List<User>  listOfUsersFound = userRepository.usersWithName(nameFragment);
         if(listOfUsersFound.isEmpty()) {
             LOGGER.info("NO USERS FOUND WHERE NAME CONTAINS: " + nameFragment);
         }
