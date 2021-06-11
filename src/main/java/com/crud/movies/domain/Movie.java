@@ -89,6 +89,7 @@ public class Movie {
     }
 
 
+    @Column(name = "MOVIE_TYPE")
     public MovieType getMovieType() {
         return movieType;
     }

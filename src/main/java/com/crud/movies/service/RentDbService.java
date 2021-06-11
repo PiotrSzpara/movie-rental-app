@@ -19,7 +19,7 @@ public class RentDbService {
         return rentRepository.findAll();
     }
 
-    public Rent getRent(final int rentId) {
+    public Rent getRentById(final int rentId) {
         return rentRepository.findByRentId(rentId);
     }
 

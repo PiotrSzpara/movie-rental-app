@@ -3,6 +3,7 @@ package com.crud.movies.controller;
 import com.crud.movies.domain.GenreDto;
 import com.crud.movies.facade.GenreFacade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,18 +12,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/genre")
 @RequiredArgsConstructor
-public class GenreContoller {
+@CrossOrigin("*")
+public class GenreController {
 
-    private GenreFacade genreFacade;
+    private final GenreFacade genreFacade;
 
-    @GetMapping(value = "getAllGenres")
+    @GetMapping("getAllGenres")
     public List<GenreDto> getAllGenres() {
         return genreFacade.getAllGenres();
     }
 
-    @GetMapping(value = "getGenre")
-    public GenreDto getGenre(@RequestParam int genreId) {
-        return genreFacade.getGenre(genreId);
+    @GetMapping("getGenreById")
+    public GenreDto getGenreById(@RequestParam int genreId) {
+        return genreFacade.getGenreById(genreId);
     }
 
     @PostMapping(value = "createGenre", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -30,12 +32,12 @@ public class GenreContoller {
        genreFacade.createGenre(genreDto);
     }
 
-    @DeleteMapping(value = "deleteGenre")
+    @DeleteMapping("deleteGenre")
     public void deleteGenre(@RequestParam int genreId) {
         genreFacade.deleteGenre(genreId);
     }
 
-    @PutMapping(value = "updateGenre")
+    @PutMapping("updateGenre")
     public GenreDto updateGenre(@RequestBody GenreDto genreDto) {
         return genreFacade.updateGenre(genreDto);
     }

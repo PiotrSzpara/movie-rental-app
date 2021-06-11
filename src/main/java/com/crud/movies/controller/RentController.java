@@ -11,18 +11,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/rent")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class RentController {
 
-    private RentFacade rentFacade;
+    private final RentFacade rentFacade;
 
-    @GetMapping(value = "getAllRents")
+    @GetMapping("getAllRents")
     public List<RentDto> getAllRents() {
         return rentFacade.getAllRents();
     }
 
-    @GetMapping(value = "getRent")
-    public RentDto getRent(@RequestParam int rentId) {
-        return rentFacade.getRent(rentId);
+    @GetMapping("getRentById")
+    public RentDto getRentById(@RequestParam int rentId) {
+        return rentFacade.getRentById(rentId);
     }
 
     @PostMapping(value = "createRent", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -30,12 +31,12 @@ public class RentController {
         rentFacade.createRent(rentDto);
     }
 
-    @DeleteMapping(value = "deleteRent")
+    @DeleteMapping("deleteRent")
     public void deleteRent(@RequestParam int rentId) {
         rentFacade.deleteRent(rentId);
     }
 
-    @PutMapping(value = "updateRent")
+    @PutMapping("updateRent")
     public RentDto updateRent(@RequestBody RentDto rentDto) {
         return rentFacade.updateRent(rentDto);
     }

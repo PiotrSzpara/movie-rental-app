@@ -11,36 +11,37 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/order")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class OrderController {
 
-    private OrderFacade orderFacade;
+    private final OrderFacade orderFacade;
 
-    @GetMapping(value = "getAllOrders")
+    @GetMapping("getAllOrders")
     public List<OrderDto> getAllOrders() {
         return orderFacade.getAllOrders();
     }
 
-    @GetMapping(value = "getOrderById")
+    @GetMapping("getOrderById")
     public OrderDto getOrderById(@RequestParam int orderId) {
         return orderFacade.getOrderById(orderId);
     }
 
-    @GetMapping(value = "getOrderByName")
+    @GetMapping("getOrderByName")
     public OrderDto getOrderByName(@RequestParam String orderName) {
         return orderFacade.getOrderByName(orderName);
     }
 
     @PostMapping(value = "createOrder", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createOrder(@RequestBody OrderDto orderDto) {
-        orderFacade.createOrder(orderDto);
+        orderFacade.createNewOrder(orderDto);
     }
 
-    @DeleteMapping(value = "deleteOrder")
+    @DeleteMapping("deleteOrder")
     public void deleteOrder(@RequestParam int orderId) {
         orderFacade.deleteOrder(orderId);
     }
 
-    @PutMapping(value = "updateOrder")
+    @PutMapping("updateOrder")
     public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
         return orderFacade.updateOrder(orderDto);
     }

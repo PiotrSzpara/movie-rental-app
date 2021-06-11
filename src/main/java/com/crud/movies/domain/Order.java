@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,16 +23,16 @@ public class Order {
 
     private int orderId;
     private String orderName;
-    private boolean isPaid;
+    private boolean paid;
     private LocalDate orderDate;
     private LocalDate orderDateEnd;
     private Rent rent;
     private List<Movie> movies = new ArrayList<>();
 
-    public Order(int orderId, String orderName, boolean isPaid, LocalDate orderDate, LocalDate orderDateEnd) {
+    public Order(int orderId, String orderName, boolean paid, LocalDate orderDate, LocalDate orderDateEnd) {
         this.orderId = orderId;
         this.orderName = orderName;
-        this.isPaid = isPaid;
+        this.paid = paid;
         this.orderDate = orderDate;
         this.orderDateEnd = orderDateEnd;
 
@@ -53,7 +54,7 @@ public class Order {
 
     @Column(name = "IS_PAID")
     public boolean isPaid() {
-        return isPaid;
+        return paid;
     }
 
     @Column(name = "ORDER_DATE")

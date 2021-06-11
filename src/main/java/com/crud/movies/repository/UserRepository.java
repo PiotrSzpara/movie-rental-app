@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
         User findByUserName(String userName);
 
+        User findByUserEmail(String userEmail);
+
         @Query(nativeQuery = true)
         List<User> usersWithName(@Param("KEYWORD") String nameFragment);
 }

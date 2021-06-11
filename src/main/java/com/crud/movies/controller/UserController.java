@@ -12,51 +12,58 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/user")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class UserController {
 
-    private UserFacade userFacade;
+    private final UserFacade userFacade;
 
-    @GetMapping(value = "getAllUsers")
+    @GetMapping("getAllUsers")
     public List<UserDto> getAllUsers() {
         return userFacade.getAllUsers();
     }
 
-    @GetMapping(value = "getUserById")
+    @GetMapping("getUserById")
     public UserDto getUserById(@RequestParam int userId) {
         return userFacade.getUserById(userId);
     }
 
-    @GetMapping(value = "getUserByName")
+    @GetMapping("getUserByName")
     public UserDto getUserByName(@RequestParam String userName) {
         return userFacade.getUserByName(userName);
     }
 
-    @GetMapping(value = "getUsersByNameFragment")
-    public List<UserDto> getUsersByNameFragment(@RequestParam String nameFragment) throws SearchException {
+    @GetMapping("getUsersByNameFragment/{nameFragment}")
+    public List<UserDto> getUsersByNameFragment(@PathVariable String nameFragment) throws SearchException {
         return userFacade.getUsersByNameFragment(nameFragment);
     }
+
+    @GetMapping("getUserByEmail")
+    public UserDto getUserByEmail(@RequestParam String userEmail) {
+        return userFacade.getUserByEmail(userEmail);
+    }
+
 
     @PostMapping(value = "createUser", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createUser(@RequestBody UserDto userDto) {
         userFacade.createUser(userDto);
     }
 
-    @DeleteMapping(value = "deleteUser")
+    @DeleteMapping("deleteUser")
     public void deleteUser(@RequestParam int userId) {
         userFacade.deleteUser(userId);
     }
 
-    @PutMapping(value = "updateUser")
+    @PutMapping("updateUser")
     public UserDto updateUser(@RequestBody UserDto userDto) {
         return userFacade.updateUser(userDto);
     }
 
-    @PutMapping(value = "updateUserPassword")
+    @PutMapping("updateUserPassword")
     public UserDto updateUserPassword(@RequestBody UserDto userDto, String newPassword) {
         return userFacade.updateUserPassword(userDto, newPassword);
     }
 
-    @PostMapping(value = "createTokenUserKey")
+    @PostMapping("createTokenUserKey")
     public void createUserTokenKey(@RequestBody UserDto userDto) {
         userFacade.createUserTokenKey(userDto);
     }

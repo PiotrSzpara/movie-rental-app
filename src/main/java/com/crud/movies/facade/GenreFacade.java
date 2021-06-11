@@ -6,11 +6,13 @@ import com.crud.movies.mapper.GenreMapper;
 import com.crud.movies.service.GenreDbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
+@Component
 public class GenreFacade {
 
     private final GenreDbService genreDbService;
@@ -21,7 +23,7 @@ public class GenreFacade {
         return genreMapper.mapToGenreDtoList(genres);
     }
 
-    public GenreDto getGenre(@RequestParam int genreId) {
+    public GenreDto getGenreById(@RequestParam int genreId) {
         Genre genre = genreDbService.getGenre(genreId);
         return genreMapper.mapToGenreDto(genre);
     }

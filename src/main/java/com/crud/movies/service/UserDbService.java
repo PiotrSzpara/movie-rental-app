@@ -24,8 +24,12 @@ public class UserDbService {
         return userRepository.findByUserId(userId);
     }
 
-    public User getUserByNme (final String userName) {
+    public User getUserByName (final String userName) {
         return userRepository.findByUserName(userName);
+    }
+
+    public User getUserByEmail (final String userEmail) {
+        return userRepository.findByUserEmail(userEmail);
     }
 
     public User saveUser(User user) {
