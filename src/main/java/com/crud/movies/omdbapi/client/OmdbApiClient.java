@@ -22,26 +22,39 @@ public class OmdbApiClient {
     private final OmdbApiConfig omdbApiConfig;
 
 
+    public MovieOmdb getMovieOmtb(String title) {
+        return restTemplate.getForObject(getUrlT(title), MovieOmdb.class);
+    }
     public List<MovieOmdb> getMoviesOmtb(String title) {
-        try {
-            MovieOmdb[] omdbResponse = restTemplate.getForObject(getUrl(title), MovieOmdb[].class);
 
+        try{
+            MovieOmdb[] omdbResponse = restTemplate.getForObject(getUrlS(title), MovieOmdb[].class);
             return Optional.ofNullable(omdbResponse)
-                    .map(Arrays::asList)
-                    .orElse(Collections.emptyList())
-                    .stream()
-                    .filter(m -> Objects.nonNull(m.getMovieTitle()))
-                    .collect(Collectors.toList());
-        } catch (RestClientException e) {
+                .map(Arrays::asList)
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(m -> Objects.nonNull(m.getTitle()))
+                .collect(Collectors.toList());
+        }catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return Collections.emptyList();
         }
     }
 
-    public URI getUrl(String movieOmdbTitle) {
+
+    public URI getUrlS(String title) {
         return UriComponentsBuilder.fromHttpUrl(omdbApiConfig.getOmdbApiEndpoint())
                 .queryParam("apikey", omdbApiConfig.getOmdbApiKey())
-                .queryParam("s", movieOmdbTitle)
+                .queryParam("s", title)
+                .build()
+                .encode()
+                .toUri();
+
+    }
+    public URI getUrlT(String title) {
+        return UriComponentsBuilder.fromHttpUrl(omdbApiConfig.getOmdbApiEndpoint())
+                .queryParam("apikey", omdbApiConfig.getOmdbApiKey())
+                .queryParam("t", title)
                 .build()
                 .encode()
                 .toUri();

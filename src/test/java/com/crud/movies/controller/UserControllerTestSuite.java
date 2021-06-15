@@ -203,10 +203,10 @@ public class UserControllerTestSuite {
         User user = new User(1, "userNameTest", "userEmailTest", "userPasswordTest", "userTokenKey", true);
         UserDto userDto = new UserDto(1, "userNameTest", "userEmailTest", "userPasswordTest", "userTokenKey", true);
 
-        UserDto userDto2 = new UserDto(2, "updatedUserNameTest", "updatedUserEmailTest", "updatedUserPasswordTest", "userTokenKey", true);
+        UserDto userDto2 = new UserDto(1, "updatedUserNameTest", "updatedUserEmailTest", "updatedUserPasswordTest", "userTokenKey", true);
 
-        //when(userFacade.updateUser(userDto)).thenReturn(userDto2);
-        when(userDbService.saveUser(user)).thenReturn(new User(2, "updatedUserNameTest", "updatedUserEmailTest", "updatedUserPasswordTest", "userTokenKey", true));
+        when(userFacade.updateUser(userDto)).thenReturn(userDto2);
+        when(userDbService.saveUser(user)).thenReturn(new User(1, "updatedUserNameTest", "updatedUserEmailTest", "updatedUserPasswordTest", "userTokenKey", true));
         when(userMapper.mapToUserDto(any())).thenReturn(userDto2);
         when(userMapper.mapToUser(any())).thenReturn(user);
 
@@ -218,11 +218,11 @@ public class UserControllerTestSuite {
                 .perform(put("/v1/user/updateUser")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonContent))
-                .andExpect(MockMvcResultMatchers.status().is(200))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.userId", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.userName", Matchers.is("updatedUserNameTest")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.userEmail", Matchers.is("updatedUserEmailTest")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password", Matchers.is("updatedUserPasswordTest")))
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.userId", Matchers.is(1)))
+                .andExpect(jsonPath("$.userName", Matchers.is("updatedUserNameTest")))
+                .andExpect(jsonPath("$.userEmail", Matchers.is("updatedUserEmailTest")))
+                .andExpect(jsonPath("$.password", Matchers.is("updatedUserPasswordTest")))
         ;
     }*/
 }

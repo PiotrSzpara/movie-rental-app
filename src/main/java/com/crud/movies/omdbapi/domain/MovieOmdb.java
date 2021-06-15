@@ -12,11 +12,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MovieOmdb {
-    @JsonProperty("movieId")
-    private int movieId;
-    @JsonProperty("movieTitle")
-    private String movieTitle;
-    @JsonProperty("movieDescription")
-    private String movieDescription;
+    @JsonProperty("Title")
+    private String title = "";
+    @JsonProperty("Year")
+    private String year = "";
+    @JsonProperty("imdbID")
+    private String imdbID = "";
+    @JsonProperty("Type")
+    private String type = "";
+    @JsonProperty("Poster")
+    private String poster = "";
+    @JsonProperty("Plot")
+    private String shortplot = "";
 
 }

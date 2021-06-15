@@ -36,9 +36,12 @@ public class MovieFacade {
         List<Movie> movies = movieDbService.getAllMovies();
         return movieMapper.mapToMovieDtoList(movies);
     }
+    public MovieOmdb getOmdbMovie(@RequestParam String title) {
+        return omdbApiClient.getMovieOmtb(title);
+
+    }
     public List<MovieOmdb> getOmdbMovies(@RequestParam String title) {
-        List<MovieOmdb> omdbMovies = omdbApiClient.getMoviesOmtb(title);
-        return omdbMovies;
+        return omdbApiClient.getMoviesOmtb(title);
     }
 
     public List<MovieDto> getMoviesByGenre(@RequestParam int genreId) {

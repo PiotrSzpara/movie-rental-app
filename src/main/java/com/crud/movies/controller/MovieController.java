@@ -26,6 +26,11 @@ public class MovieController {
         return movieFacade.getAllMovies();
     }
 
+    @GetMapping("getOmdbMovie")
+    MovieOmdb getOmdbMovie(@RequestParam String title) {
+        return movieFacade.getOmdbMovie(title);
+    }
+
     @GetMapping("getOmdbMovies")
     List<MovieOmdb> getOmdbMovies(@RequestParam String title) {
         return movieFacade.getOmdbMovies(title);
